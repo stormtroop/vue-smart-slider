@@ -1,6 +1,7 @@
 # Smart Slider Component for Vue.JS 2
 
 [![license](https://img.shields.io/npm/l/express.svg)]()
+[![npm](https://img.shields.io/npm/v/vue-smart-slider.svg?style=flat)]()
 
 ## Project setup
 ```
