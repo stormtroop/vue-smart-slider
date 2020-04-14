@@ -92,7 +92,7 @@ export default {
     propFloatingValues: {
       type: Boolean,
       required: false,
-      default: false
+      default: true
     },
     propTransition: {
       type: String,
@@ -232,13 +232,9 @@ export default {
       // const y = this.rail.offsetWidth + this.rail.getBoundingClientRect().left
       const a = rW - (cW / 2)
       const zA = z - x
-      let zP = zA / a * 100
+      const zP = zA / a * 100
 
       if (this.propPips && this.propPips.length) {
-        if (zP > this.getMaxPip().percentage) {
-          zP = this.getMaxPip().percentage
-          console.error(zP)
-        }
         const pips = this.propPips
         let value = null
 
@@ -248,8 +244,10 @@ export default {
             nextPip = pips[index + 1]
           }
 
-          console.log(`${zP} >= ${pip.percentage} && ${zP} <= ${nextPip.percentage}`)
-          if (zP >= pip.percentage && zP <= nextPip.percentage) {
+          console.log(this.getMaxPip().value)
+          if (zP >= this.getMaxPip().percentage) {
+            value = this.getMaxPip().value
+          } else if (zP >= pip.percentage && zP <= nextPip.percentage) {
             const increment = (nextPip.value - pip.value) / (nextPip.percentage - pip.percentage)
             value = pip.value + (zP - pip.percentage) * increment
           }
