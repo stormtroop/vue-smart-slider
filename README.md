@@ -3,7 +3,16 @@
 [![license](https://img.shields.io/npm/l/express.svg)]()
 [![npm](https://img.shields.io/npm/v/vue-smart-slider.svg?style=flat)]()
 
-*WIP*
+> 😎 a highly customizable slider for Vue.js
+
+## Features
+- 📱 optimized for mobile devices
+- 📐 support for custom ranges 
+- 👵 backwards compatible to IE9
+- typescript support
+
+**HEAVY WORK IN PROGRESS**
+
 ## Project setup
 ```
 npm install

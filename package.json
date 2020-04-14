@@ -2,6 +2,7 @@
   "name": "vue-smart-slider",
   "version": "0.1.0",
   "private": false,
+  "homepage": "https://github.com/stormtroop/vue-smart-slider",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
