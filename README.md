@@ -3,6 +3,7 @@
 [![license](https://img.shields.io/npm/l/express.svg)]()
 [![npm](https://img.shields.io/npm/v/vue-smart-slider.svg?style=flat)]()
 
+*WIP*
 ## Project setup
 ```
 npm install
