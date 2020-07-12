@@ -97,7 +97,7 @@ export default {
     propTransition: {
       type: String,
       required: false,
-      default: 'left 500ms ease-in, width 500ms ease-in'
+      default: 'left 250ms ease-in, width 250ms ease-in'
     },
     propMarks: {
       type: Array,
@@ -167,15 +167,18 @@ export default {
             }
 
             if (value >= pip.value && value <= nextPip.value) {
-              const increment = (nextPip.value - pip.value) / (nextPip.percentage - pip.percentage)
+              let increment = (nextPip.value - pip.value) / (nextPip.percentage - pip.percentage)
+              // happends when the slider control element is not in pip range after resize
+              if (Number.isNaN(increment)) { increment = 1 }
+
               leftPosition = this.railWidth / 100 * (pip.percentage + (value - pip.value) / increment) - (this.control.getBoundingClientRect().width / 2)
             }
-          })
+          }, this)
         } else {
           leftPosition = this.value / this.propMax * this.railWidth - (this.control.getBoundingClientRect().width / 2)
         }
       }
-      // console.log(`leftPosition ${leftPosition}`)
+      console.log(`leftPosition ${leftPosition}`)
       return leftPosition
     }
   },
