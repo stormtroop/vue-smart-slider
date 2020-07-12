@@ -2,7 +2,6 @@
     <div class="vue-smart-slider-process"
          v-if="left !== undefined"
          v-bind:style="{ height: height.toString().concat('px'), width: left.toString().concat('px'), transition: transition }">
-
     </div>
 </template>
 

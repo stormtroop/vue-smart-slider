@@ -5,7 +5,7 @@
     <vue-smart-slider-component
             :propWidth="width"
             :prop-max="1000"
-            :prop-default-value="10"
+            :prop-default-value="100"
             :prop-pips="pips"
             :prop-marks="marks"></vue-smart-slider-component>
   </div>

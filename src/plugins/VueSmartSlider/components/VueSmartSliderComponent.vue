@@ -1,37 +1,37 @@
 <template>
-    <div class="vue-smart-slider-container" ref="VueSmartContainer">
-        <input type="number" v-model="value">
+  <div class="vue-smart-slider-container" ref="VueSmartContainer">
+    <input type="number" v-model="value">
 
-        <div class="vue-smart-slider" v-bind:style="{ 'max-width': propWidth.toString().concat('px') }">
-            <div class="vue-smart-slider-rail" ref="VueSmartRail">
-                <vue-smart-slider-process v-if="this.propProcess"
-                                          v-bind:transition="this.transition"
-                                          v-bind:height="propRailHeight"
-                                          v-bind:left="left"></vue-smart-slider-process>
+    <div class="vue-smart-slider" v-bind:style="{ 'max-width': propWidth.toString().concat('px') }" ref="VueSmartSlider">
+      <div class="vue-smart-slider-rail" ref="VueSmartRail">
+        <vue-smart-slider-process v-if="this.propProcess"
+                                  v-bind:transition="this.transition"
+                                  v-bind:height="propRailHeight"
+                                  v-bind:left="left"></vue-smart-slider-process>
 
-                <div class="vue-smart-slider-control" ref="VueSmartControl"
-                     v-bind:style="{ left: left + 'px', top: controlState.top, transition: transition }"
-                     v-on:mouseup="onControlMouseUp"
-                     v-on:mousedown="onControlMouseDown"
-                     v-on:touchend="onControlMouseUp"
-                     v-on:touchstart="onControlMouseDown"></div>
+        <div class="vue-smart-slider-control" ref="VueSmartControl"
+             v-bind:style="{ left: left + 'px', top: controlState.top, transition: transition }"
+             v-on:mouseup="onControlMouseUp"
+             v-on:mousedown="onControlMouseDown"
+             v-on:touchend="onControlMouseUp"
+             v-on:touchstart="onControlMouseDown"></div>
 
-                <vue-smart-slider-marks
-                        v-if="propMarks.length"
-                        v-bind:prop-marks="propMarks"
-                        v-bind:prop-width="propWidth"
-                        v-bind:prop-max="propMax"></vue-smart-slider-marks>
+        <vue-smart-slider-marks
+          v-if="propMarks.length"
+          v-bind:prop-marks="propMarks"
+          v-bind:prop-width="propWidth"
+          v-bind:prop-max="propMax"></vue-smart-slider-marks>
 
-                <vue-smart-slider-pips
-                        v-if="propPips.length"
-                        v-bind:prop-pips="propPips"
-                        v-bind:prop-width="propWidth"
-                        v-bind:prop-max="propMax"></vue-smart-slider-pips>
-            </div>
+        <vue-smart-slider-pips
+          v-if="propPips.length"
+          v-bind:prop-pips="propPips"
+          v-bind:prop-width="propWidth"
+          v-bind:prop-max="propMax"></vue-smart-slider-pips>
+      </div>
 
-            <vue-smart-slider-debug v-bind:debug-object="debug"></vue-smart-slider-debug>
-        </div>
+      <vue-smart-slider-debug v-bind:debug-object="debug"></vue-smart-slider-debug>
     </div>
+  </div>
 </template>
 
 <script>
@@ -114,9 +114,19 @@ export default {
       }
     }
   },
+  created: function () {
+    this.$nextTick(() => {
+      this.onResize()
+      window.addEventListener('resize', this.onResize)
+    })
+  },
+  destroyed: function () {
+    window.removeEventListener('resize', this.onResize)
+  },
   data: function () {
     return {
       transition: '',
+      railWidth: 0,
       controlState: {
         moving: false,
         left: 0,
@@ -158,11 +168,11 @@ export default {
 
             if (value >= pip.value && value <= nextPip.value) {
               const increment = (nextPip.value - pip.value) / (nextPip.percentage - pip.percentage)
-              leftPosition = this.rail.getBoundingClientRect().width / 100 * (pip.percentage + (value - pip.value) / increment) - (this.control.getBoundingClientRect().width / 2)
+              leftPosition = this.railWidth / 100 * (pip.percentage + (value - pip.value) / increment) - (this.control.getBoundingClientRect().width / 2)
             }
           })
         } else {
-          leftPosition = this.value / this.propMax * this.rail.getBoundingClientRect().width - (this.control.getBoundingClientRect().width / 2)
+          leftPosition = this.value / this.propMax * this.railWidth - (this.control.getBoundingClientRect().width / 2)
         }
       }
       // console.log(`leftPosition ${leftPosition}`)
@@ -170,6 +180,9 @@ export default {
     }
   },
   methods: {
+    onResize: function () {
+      this.railWidth = this.rail.getBoundingClientRect().width
+    },
     getMinPip: function () {
       let minPip = null
       for (let i = 0; i < this.propPips.length; i++) {
@@ -310,47 +323,47 @@ export default {
 </script>
 
 <style scoped>
-    .vue-smart-slider-container {
-        max-width: 1080px;
-        padding: 15px;
-        margin: auto;
-    }
+  .vue-smart-slider-container {
+    max-width: 1080px;
+    padding: 15px;
+    margin: auto;
+  }
 
-    .vue-smart-slider {
-        border-radius: 3px;
-    }
+  .vue-smart-slider {
+    border-radius: 3px;
+  }
 
-    .vue-smart-slider-rail {
-        background-color: #2f3a44;
-        position: relative;
-        cursor: pointer;
-        border-radius: 5px;
-        border: 1px solid #7491ab;
-    }
+  .vue-smart-slider-rail {
+    background-color: #2f3a44;
+    position: relative;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #7491ab;
+  }
 
-    .vue-smart-slider-control {
-        position: absolute;
-        top: 50%;
-        -webkit-transform: translate(0, -50%);
-        -moz-transform: translate(0, -50%);
-        -ms-transform: translate(0, -50%);
-        -o-transform: translate(0, -50%);
-        transform: translate(0, -50%);
-        background-color: #2f3a44;
-        border-radius: 4px;
-        width: 34px;
-        height: 28px;
-        border: 1px solid #7491ab;
-    }
+  .vue-smart-slider-control {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0, -50%);
+    -moz-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    -o-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    background-color: #2f3a44;
+    border-radius: 4px;
+    width: 34px;
+    height: 28px;
+    border: 1px solid #7491ab;
+  }
 
-    .vue-smart-slider-control:after {
-        opacity: 0.2;
-        content: '||';
-        display: block;
-        color: #e8e7e6;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+  .vue-smart-slider-control:after {
+    opacity: 0.2;
+    content: '||';
+    display: block;
+    color: #e8e7e6;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 </style>
