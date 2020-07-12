@@ -1,1 +1,1 @@
-declare module 'vue-smart-slider-component'
+declare module 'vue-smart-slider'
